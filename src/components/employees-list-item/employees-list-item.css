@@ -55,7 +55,7 @@
   transform: translateX(0px);
 }
 
-.list-group-itemincrease .list-group-item-label, .list-group-item.increase .list-group-item-input {
+.list-group-item.increase .list-group-item-label, .list-group-item.increase .list-group-item-input {
   color: #e09f3e;
 }
 
