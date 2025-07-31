@@ -17,7 +17,8 @@ class App extends Component {
         { name: "John C.", salary: 800, increase: true, rise: true, id: uuidv4() },
         { name: "Alex M", salary: 3000, increase: false, rise: false, id: uuidv4() },
         { name: "Carl W.", salary: 5000, increase: true, rise: false, id: uuidv4() },
-      ]
+      ],
+      term: ''
     }
   }
 
@@ -53,19 +54,36 @@ class App extends Component {
     }));
   }
 
+  searchEmpl = (employees, term) => {
+    if(term.length === 0) {
+      return employees;
+    }
+
+    return employees.filter(employe => {
+      return employe.name.indexOf(term) > -1;
+    });
+  }
+
+  onUpdateSearch = (term) => {
+    this.setState({term});
+  }
+
   render() {
-    const emplCount = this.state.data.length;
-    const emplIncrCount = this.state.data.filter(item => item.increase === true).length;
+    const {data, term} = this.state;
+    const emplCount = data.length;
+    const emplIncrCount = data.filter(item => item.increase === true).length;
+    const visibleData = this.searchEmpl(data, term);
+
     return (
       <div className="app">
         <AppInfo emplCount={emplCount} emplIncrCount={emplIncrCount} />
 
         <div className="search-panel">
-          <SearchPanel />
+          <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
           <AppFilter />
         </div>
 
-        <EmployeesList data={this.state.data} onDelete={this.deleteItem} onToggleProp={this.onToggleProp} />
+        <EmployeesList data={visibleData} onDelete={this.deleteItem} onToggleProp={this.onToggleProp} />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
     );
